@@ -1,0 +1,276 @@
+/*colorway
+pale green - #91d6d6
+pale blue - #a6d3e7
+#08BAE3 
+
+/*Overall*/
+@font-face {
+    font-family: 'GetSchwifty';
+    src: url(get_schwifty.ttf) format('truetype');
+}
+
+* {
+    font-family: 'GetSchwifty', sans-serif;
+    color: #08BAE3;
+    -webkit-text-stroke: 0.03em #FFF765;
+}
+
+.body-text{
+    letter-spacing: 2px;
+    word-spacing: 5px;
+    line-height: 30px;
+}
+
+.special-text{
+    color:  #FFF765;
+    -webkit-text-stroke: 0.005em #08BAE3;
+}
+
+.big-text {
+    font-size: 30px;
+}
+
+/*Body*/
+#bg-img {
+    background-image: url('images/rick-bg-img.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+/*Temporary for styling help- to be delted later */
+/* div {
+     border: 1px solid #EAEAEA;
+} */
+.popup-message {
+    font-size: 25px;
+    line-height: 40px;
+    padding: 10px 40px;
+    margin: 10px 0px;
+}
+
+
+#popup-img-1{
+    width: 200px;
+    margin: 5px 5px;
+}
+
+#popup-img-2{
+    width: 95px;
+    margin: 5px 20px;
+    float: right;
+}
+
+#close-popup {
+    width: 300px;
+    height: 100px;
+}
+
+/*Title*/
+#div-title {
+    position: relative;
+    margin: 0px auto;
+    font-size: 50px;
+    text-align: center;
+    width: 820px;
+    padding: 10px;
+    line-height: 60px;
+    right: 100px;
+}
+
+
+span {
+    font-size: 1em;
+}
+
+/*Structure*/
+#container {
+    position: relative;
+    margin: 0px auto;
+    padding: 10px 10px;
+    width: 820px;
+    height: 760px;
+    right: 100px;
+    
+}
+
+#div-table, #popup, #end-scene {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+
+    background-color: rgb(39, 61, 52);
+    box-shadow: 0 0 16px rgba(0,0,0,0,1);
+    
+    border-style: solid;
+    border-width: 10px;
+    border-radius: 50px;
+    border-color: #362105;
+}
+
+#popup {
+    display: flex;
+    flex-direction: column;
+}
+
+.div-color {
+    background-color:#1E362C;
+}
+
+.div-big {
+    display: flex;
+    width: 800px;
+    height: 260px;
+    margin: 10px;
+    border-radius: 20px;
+}
+
+.div-med {
+    display: flex;
+    width: 800px;
+    height: 220px;
+    margin: 5px;
+    border-radius: 20px;
+}
+
+
+#dealer-section, #player-section {
+    display: flex;
+    flex-direction: column;
+    width: 180px;
+    height: 260px;    
+}
+
+.dealer-text, .player-text {
+    width: 160px;
+    padding: 10px;
+    font-size: 40px;
+    text-align: center;    
+}
+
+#dealer-img{
+    height: 140px;
+    margin: 5px 50px;
+}
+
+.div-7{
+    display: flex;
+    width: 180px;
+    height: 40px;
+}
+
+.div-8{
+    width: 100px;
+    height: 40px;
+    font-size: 30px;
+    text-align: center;
+}
+
+.div-9{
+    width: 80px;
+    height: 40px;
+    font-size: 30px;
+}
+
+#dealer-score{
+    text-align: center;
+}
+
+
+.div-2 {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 600px;
+    height: 260px;    
+}
+
+.card-layout {
+    width: 100px;
+    height: 145px;
+    border: 1px solid #1FCA34;
+}
+
+#player-img{
+    height: 120px;
+    margin: 15px 50px;
+}
+
+.div-5 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 650px;
+    height: 220px;    
+}
+
+.div-6 {
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+    height: 200px;
+    padding: 10px;    
+}
+
+
+#player-score{
+    text-align: center;
+}
+
+#div-output {
+    width: 800px;
+    height: 170px;
+    padding: 10px;
+    font-size: 25px;
+    text-align: center;
+    
+    border: 5px groove #08BAE3;
+    background-color:#1E362C;
+    border-radius: 20px;
+}
+
+button {
+    width: 100px;
+    height: 50px;
+    margin: 0px auto;
+    padding: 5px;
+
+    background-color: #362105;
+    
+    text-align: center;
+    font-size: 25px;
+    
+    border-radius: 10px;
+    box-shadow: 0 0 16px rgba(0,0,0,0,1);
+}
+
+button:hover {
+    cursor: pointer;
+    background-color: #964A4A;
+    transition: 0.5s;
+}
+
+button:disabled {
+    opacity: 0.5;
+}
+
+#end-credits {
+    font-size: 50px;
+    text-align: center;
+    padding: 10px;
+    margin-top: 30px;
+}
+
+#end-img {
+    width: 99%;
+    border-radius: 10px;
+    margin: 5px;
+}
+
+#play-again {
+    width: 200px;
+    height: 60px;
+    margin: 0px 300px;
+}
