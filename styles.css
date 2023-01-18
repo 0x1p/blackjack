@@ -26,6 +26,11 @@ pale blue - #a6d3e7
     -webkit-text-stroke: 0.005em #08BAE3;
 }
 
+.highlight-text{
+    color:  #FF0032;
+    -webkit-text-stroke: 0.005em #3D1766;
+}
+
 .big-text {
     font-size: 30px;
 }
@@ -191,6 +196,7 @@ span {
     width: 100px;
     height: 145px;
     border: 1px solid #1FCA34;
+    border-radius: 5px;
 }
 
 #player-img{
