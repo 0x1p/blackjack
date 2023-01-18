@@ -29,16 +29,17 @@ var playerList = [
 
 var shuffleDeck = [];
 var winningScore = 5;
-var currentPlayer; //track who gets dealt with cards
+var currentPlayer;
 
 // OUTPUT STATEMENTS //
 var initialHandOutput = '';
 var blackjackOutput = '';
-var checkLeadOutput = '';
+var checkPointsOutput = '';
 var nextCardOutput = '';
-var nextActionOutput = '';
+var hitOrStandOutput = '';
 var bustedOutput = '';
 var winnerOutput = '';
+var dealerOutput = '';
 
 // SET INITIAL STATE //
 var gameState = START;
@@ -76,15 +77,16 @@ var endScene = document.querySelector("#end-scene");
 var endCredits = document.querySelector("#end-credits");
 var endImage = document.querySelector("#end-img");
 var playAgain = document.querySelector("#play-again");
+
 endScene.style.display = "none";
 pointsToWin.innerHTML = winningScore;
+
 popUpbutton.addEventListener("click", function () {
   popUpScreen.style.display = "none";
 })
 
-
 dealButton.addEventListener("click", function () {
-  var result = deal(); //Runs deal() when clicked. Put the output into variable called "result"
+  var result = deal();
   var output = document.querySelector("#div-output");
   output.innerHTML = result;
 });
@@ -100,9 +102,6 @@ standButton.addEventListener("click", function () {
   var output = document.querySelector ("#div-output");
   output.innerHTML = result;
 });
-
-
-
 
 
 // HELPER FUNCTIONS //
@@ -293,39 +292,23 @@ var checkPoints = function () {
 //If busted, issue busted statement. Excludes fiveCardDragon logic
 var bustedStatement = function () {
   if (gameState == PLAYER_TURN && playerList[1].isBusted == true) {
-    bustedOutput += `${playerList[1].name} has <span class="special-text">busted</span>! It's ${playerList[0].name}'s turn now.<br>` 
+    bustedOutput += `${playerList[1].name} has <span class="highlight-text">busted</span>! It's ${playerList[0].name}'s turn now.<br>` 
     gameState = DEALER_TURN;
   }
 
   if (gameState == DEALER_TURN && playerList[0].isBusted == true) {
-    bustedOutput += `${playerList[0].name} has <span class="special-text">busted!</span><br>`;
-    checkWhoWon();
-    bustedOutput += winnerOutput;
-    gameState = END;
+    bustedOutput += `${playerList[0].name} has <span class="highlight-text">busted!</span><br>`;
   }
     styleControl();
   return null;
 }
 
 //Statement for current points and who is leading
-var checkWhoIsLeading = function () {
-  
-  checkLeadOutput += `${playerList[1].name} has <span class="special-text">${playerList[1].points} points. </span>` 
+var checkPointsStatement = function () {
+  checkPointsOutput += `${playerList[1].name} has <span class="special-text">${playerList[1].points} points. </span>` 
 
   if (gameState == DEALER_TURN) {
-  checkLeadOutput += `${playerList[0].name} has <span class="special-text">${playerList[0].points} points</span>.`
-  }
-
-  if (playerList[0].points > playerList[1].points && playerList[0].isBusted == false && gameState == DEALER_TURN) {
-    checkLeadOutput += `${playerList[0].name} is in the lead.<br>`;
-  }
-
-  if (playerList[0].points < playerList[1].points && playerList[1].isBusted == false && gameState == DEALER_TURN) {
-    checkLeadOutput += `${playerList[1].name} is in the lead.<br>`;
-  }
-
-  if (playerList[0].points == playerList[1].points && gameState == DEALER_TURN) {
-    checkLeadOutput += `It's a draw right now.<br>`;
+  checkPointsOutput += `${playerList[0].name} has <span class="special-text">${playerList[0].points} points</span>.`
   }
   return null;
 }
@@ -360,13 +343,9 @@ var checkWhoWon = function () {
   return null;
 }
 
-var nextactionStatement = function () {
+var hitOrStand = function () {
   if ((gameState == INITIAL) || (gameState == PLAYER_TURN && playerList[1].isBusted == false)) {
-    nextActionOutput += `${playerList[1].name}, will you <span class="special-text">Hit</span> or <span class="special-text">Stand</span>?.`
-  }
-
-  if (gameState == DEALER_TURN && playerList[0].isBusted == false) {
-    nextActionOutput += `${playerList[0].name}, will you <span class="special-text">Hit</span> or <span class="special-text">Stand</span>?`
+    hitOrStandOutput += `${playerList[1].name}, will you <span class="special-text">Hit</span> or <span class="special-text">Stand</span>?.`
   }
   return null;
 }
@@ -377,6 +356,7 @@ var dealOneCard = function () {
   currentPlayer.hand.push(nextCard);
   nextCardOutput += `${currentPlayer.name} is dealt <span class="special-text">${nextCard.name}</SPAN>. <br>`
   checkPoints();
+
   if (currentPlayer.hand.length == 4 && currentPlayer.points < 21) {
     nextCardOutput += `Is ${currentPlayer.name} is going for the five card dragon kill? `
   }
@@ -398,14 +378,34 @@ var dealOneCard = function () {
   return nextCardOutput;
 }
 
+var dealDealer = function () {
+  if (playerList[0].points < 17) {   
+    dealerOutput += " bighead is dealt ";
+    while (playerList[0].points < 17 && playerList[0].hand.length < 5) {
+      var nextCard = shuffleDeck.pop();
+      playerList[0].hand.push(nextCard);
+      dealerOutput += `<span class="special-text">${nextCard.name}</span>`;
+      checkPoints();
+            
+      if (playerList[0].points < 17 && playerList[0].hand.length < 5) {
+        dealerOutput +=" and ";
+      } else {
+        dealerOutput +=". "
+      }
+    }
+  }
+  return null;
+}
+
 var resetStatements = function () {
   initialHandOutput = '';
   blackjackOutput = '';
-  checkLeadOutput = '';
-  nextActionOutput = '';
+  checkPointsOutput = '';
+  hitOrStandOutput = '';
   nextCardOutput = '';
   bustedOutput = '';
   winnerOutput = '';
+  dealerOutput = '';
   return null;
 }
 
@@ -494,7 +494,6 @@ var styleControl = function () {
     dealButton.innerHTML = "Next";
     dealerScore.innerHTML = playerList[0].score;
     playerScore.innerHTML = playerList[1].score;
-    
   }
 
   if (gameState == PLAYER_TURN) {
@@ -508,6 +507,9 @@ var styleControl = function () {
     playerSection.style.border = "";
     dealerSection.style.border = "5px solid #08BAE3";
     dealerCard_1.innerHTML = playerList[0].hand[0].image;
+    dealButton.disabled = false;
+    hitButton.disabled = true;
+    standButton.disabled = true;   
   }
 
   if (gameState == END) {
@@ -516,7 +518,7 @@ var styleControl = function () {
     dealerSection.style.border = "";
     dealButton.disabled = false;
     hitButton.disabled = true;
-    standButton.disabled = true;   
+    standButton.disabled = true;
   }
 
   return null;
@@ -549,13 +551,26 @@ var deal = function () {
 
   if (gameState == INITIAL) {
     checkPoints();
-    checkWhoIsLeading();
-    nextactionStatement();
+    checkPointsStatement();
+    hitOrStand();
     gameState = PLAYER_TURN;
     styleControl();
-    return checkLeadOutput + nextActionOutput;
+    return checkPointsOutput + hitOrStandOutput;
   }
 
+  if (gameState == DEALER_TURN) {
+    resetStatements();
+    dealDealer();
+    checkPoints();
+    checkPointsStatement();
+    bustedStatement();
+    displayDealerCards();
+    checkWhoWon();
+    gameState = END;
+    styleControl();  
+    return dealerOutput + bustedOutput + checkPointsOutput + winnerOutput;
+  }    
+  
   if (gameState == END) {
     resetgame();
     resetStatements();
@@ -587,12 +602,12 @@ var hit = function () {
       resetStatements();
       dealOneCard();
       checkPoints();
-      checkWhoIsLeading();
+      checkPointsStatement();
       bustedStatement(); //Might change to DEALER_TURN
-      nextactionStatement();
+      hitOrStand();
       styleControl();
       displayPlayerCards();
-      return nextCardOutput + checkLeadOutput + bustedOutput + nextActionOutput;
+      return nextCardOutput + checkPointsOutput + bustedOutput + hitOrStandOutput;
     }
 
     if (playerList[1].hand.length == 4) { //five card dragon scenario
@@ -600,28 +615,6 @@ var hit = function () {
       dealOneCard();
       displayPlayerCards();
     return nextCardOutput;
-    }
-  }
-
-  if (gameState == DEALER_TURN) {
-    currentPlayer = playerList[0];
-    if (playerList[0].hand.length < 4) {
-      resetStatements();
-      dealOneCard(); 
-      checkPoints();  
-      checkWhoIsLeading();
-      bustedStatement(); //GAME END FUNCTION: Might change to END
-      nextactionStatement();
-      styleControl();
-      displayDealerCards();
-      return nextCardOutput + checkLeadOutput + bustedOutput + nextActionOutput;
-    }
-
-    if (playerList[0].hand.length == 4) {
-      resetStatements();
-      dealOneCard();
-      displayDealerCards();
-      return nextCardOutput;
     }
   }
 }
@@ -632,14 +625,6 @@ var stand = function () {
     gameState = DEALER_TURN;
     styleControl();
     return `${playerList[1].name} has chosen to stand <span class="special-text">${playerList[1].points}</span> points. <br>
-    ${playerList[0].name}. will you Hit or Stand at <span class="special-text">${playerList[0].points}</span> points? `
-  }
-
-  if (gameState == DEALER_TURN) {
-    checkWhoWon(); //GAME END FUNCTION
-    gameState = END;
-    styleControl();
-    return `${playerList[0].name} has chosen to stand at <span class="special-text">${playerList[0].points}</span> points.  
-    ${playerList[1].name} have <span class="special-text">${playerList[1].points}</span> points. ` + winnerOutput;
+    It's ${playerList[0].name}'s turn now. He has <span class="special-text">${playerList[0].points}</span> points`
   }
 }
